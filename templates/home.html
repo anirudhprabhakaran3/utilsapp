@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to Utils!</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Quick Links</h5>
+            <ul>
+                <li>
+                 <a href="{% url 'work_logger_home' %}">Work Logger</a>
+                </li> 
+             </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
