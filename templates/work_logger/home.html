@@ -7,11 +7,18 @@ Home | Work Logger
 {% block content %}
 <div class="container">
     <h1>Welcome to Work Logger</h1>
+
+    {% for message in messages %}
+        <div class="alert alert-dismissible {{ message.tags }}" role="alert">
+            <div>{{ message | safe }}</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
     
     <div class="row mt-3">
         <div class="col">
-            <a href="#" class="btn btn-primary">Add Planner for today</a>
-            <a href="#" class="btn btn-primary">Add Retrospect for today</a>
+            <a href="{% url 'work_logger_add_planner' %}" class="btn btn-primary">Add Planner for today</a>
+            <a href="{% url 'work_logger_add_retrospect' %}" class="btn btn-primary">Add Retrospect for today</a>
         </div>
     </div>
 
