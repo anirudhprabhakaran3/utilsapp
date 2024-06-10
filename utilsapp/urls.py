@@ -21,8 +21,7 @@ from django.urls import include
 from utilsapp import views
 
 urlpatterns = [
-    path("", views.home, name="home"),
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('work_logger/', include('work_logger.urls'))
+    path('accounts/', include("django.contrib.auth.urls")),
+    path('', views.home, name="home"),
 ]
