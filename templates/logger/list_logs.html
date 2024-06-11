@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+List all Logs | Logger
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3>Welcome to Logger</h3>
+    <a href="{% url 'logger_home' %}" class="btn btn-secondary">Logger Home</a>
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">All Logs</h4>
+            {% include 'components/logger_table.html' with logs=logs %}
+        </div>
+    </diV>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+View Log | Logger
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3>Welcome to Logger</h3>
+    <a href="{% url 'logger_home' %}" class="btn btn-secondary">Logger Home</a>
+    <h3>View Logger for {{ log.date }}</h3>
+
+    <div class="row my-3">
+        <div class="col-sm-12">
+            <h5>Progress</h5>
+            <div class="progress" role="progressbar" aria-valuenow="{{ completed_tasks }}" aria-valuemin="0" aria-valuemax="{{ total_tasks }}">
+                <div class="progress-bar" style="width: {{ progress }}%"></div>
+            </div>
+            <div>
+                {{ completed_tasks }} completed out of {{ total_tasks }} - {{ progress|floatformat:-2 }}%
+            </div>
+        </div>
+    </div>
+
+    <div class="row my-3">
+        <div class="col-sm-12 col-md-6 mx-auto my-3">
+            <p>
+                {% if log.notes %}
+                    {{ log.notes }}
+                {% else %}
+                    <i>No note added.</i>
+                {% endif %}
+            </p>
+        </div>
+        <div class="col-sm-12 col-md-6 mx-auto my-3">
+            <h3>Tasks</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.task }}</td>
+                            <td>{{ task.completed|yesno:"Yes,No" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

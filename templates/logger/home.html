@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home | Logger
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3>Welcome to Logger</h3>
+
+    <div class="row my-3">
+        <div class="col-sm-3">
+            <a href="{% url 'logger_new' %}" class="btn btn-primary">Add log for today</a>
+        </div>
+    </div>
+
+    <div class="row my-3">
+        <div class="col-sm-12 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Previous Logs</h4>
+                    {% include 'components/logger_table.html' with logs=logs %}
+                    <a href="{% url 'logger_list_logs' %}" class="btn btn-outline-primary">View more</a>
+                </div>
+            </diV>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

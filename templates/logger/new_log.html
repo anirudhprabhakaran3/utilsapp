@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+New Log | Logger
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h3>Welcome to Logger</h3>
+
+    <div class="row">
+        <div class="col-sm-12 col-lg-6 mx-auto">
+            <div class="card-body">
+                <h4 class="card-title">Create New Log for {{ today }}</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    {% crispy task_formset helper %}
+                    <button type="button" class="btn btn-outline-secondary" id="add_form">Add</button>
+                    {% crispy log_form %}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#add_form").click(function() {
+        add_form();
+    })
+
+    function add_form() {
+        var empty_form = $(".empty-form");
+        var new_form = empty_form.clone();
+        var total_form_management_form = $("#id_form-TOTAL_FORMS");
+        var current_forms = $("table >tbody >tr").length - 1;
+        new_form.removeAttr("class");
+        $("tbody").append(new_form);
+
+        new_form.find("td").each(function() {
+            var id = this.id;
+            id = id.replace("__prefix__", current_forms);
+            this.id = id;
+        });
+
+        new_form.find("input").each(function() {
+            var id = this.id;
+            id = id.replace("__prefix__", current_forms);
+            this.id = id;
+
+            $(this).attr("name", $(this).attr("name").replace("__prefix__", current_forms));
+        });
+        total_form_management_form.val(current_forms + 1);
+    }
+</script>
+{% endblock %}
