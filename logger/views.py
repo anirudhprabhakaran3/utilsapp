@@ -43,7 +43,7 @@ def new_log(request):
         "user": request.user
     })
     TaskFormSet = modelformset_factory(Task, fields=["task", "completed"])
-    task_formset = TaskFormSet()
+    task_formset = TaskFormSet(queryset=Task.objects.none())
     helper = TaskFormsetHelper()
 
     if request.method == "POST":
