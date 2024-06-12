@@ -78,7 +78,6 @@ def view_log(request, pk):
     log = get_object_or_404(Log, pk=pk)
 
     if log.date == today:
-        messages.warning(request, "This is today's log.")
         return redirect("logger_edit_log", pk=log.pk)
 
     tasks = Task.objects.filter(log=log)
