@@ -61,7 +61,7 @@ def new_log(request):
                 task.save()
 
             messages.success(request, "Added log")
-            return redirect("logger_home")
+            return redirect("logger_view_log", pk=log.pk)
 
 
     args = {
