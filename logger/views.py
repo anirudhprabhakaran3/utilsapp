@@ -9,7 +9,7 @@ from django.utils import timezone
 from logger.models import Log, Task
 from logger.forms import LogForm, TaskFormsetHelper
 
-today = timezone.now().date()
+today = timezone.localtime().date()
 
 # Create your views here.
 @login_required

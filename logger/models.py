@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Log(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
-    date = models.DateField(default=timezone.now, blank=False, null=False)
+    date = models.DateField(default=timezone.localtime, blank=False, null=False)
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):
