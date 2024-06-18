@@ -24,7 +24,41 @@ Home | Logger
                 </div>
             </diV>
         </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Weekly Statistics</h4>
+                    <p>These stats are for the last 5 loggers created.</p>
+                    <canvas id="weeklyStats" style="width:100%"></canvas>
+                </div>
+            </diV>
+        </div>
     </div>
-
 </div>
+
+<script>
+    var xValues = ["Completed", "Not Completed"];
+    var yValues = [{{ completed_count }}, {{ uncompleted_count }}];
+    var barColors = [
+        "#1e7145",
+        "#b91d47"
+    ];
+    
+    new Chart("weeklyStats", {
+      type: "doughnut",
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: "Stats for last week"
+        }
+      }
+    });
+    </script>
 {% endblock %}

@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from django.utils import timezone
+from django.db.models import Count, Q
 
 from logger.models import Log, Task
 from logger.forms import LogForm, TaskFormsetHelper
@@ -15,8 +16,17 @@ today = timezone.localtime().date()
 @login_required
 def home(request):
     logs = Log.objects.filter(user=request.user).order_by("-date")[:5]
+
+    log_ids = logs.values_list("id", flat=True)
+    task_counts = Task.objects.filter(log_id__in=log_ids).aggregate(
+        completed_count=Count('id', filter=Q(completed=True)),
+        uncompleted_count=Count('id', filter=Q(completed=False))
+    )
+
     args = {
-        "logs": logs
+        "logs": logs,
+        "completed_count": task_counts["completed_count"],
+        "uncompleted_count": task_counts["uncompleted_count"]
     }
     return render(request, "logger/home.html", args)
 
