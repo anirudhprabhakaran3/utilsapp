@@ -19,6 +19,7 @@ from django.urls import path, include
 from utilsapp.views import index
 
 urlpatterns = [
+    path("", index, name="index"),
     path('admin/', admin.site.urls),
-    path('', index)
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
