@@ -30,9 +30,11 @@
 
                     <form class="mt-8 grid grid-cols-6 gap-6" method="post">
                         {% csrf_token %}
-                        <div class="bg-red-600 text-white col-span-6 border rounded rounded-md border-red-600 p-2">
-                            <strong>{{ form.non_field_errors }}</strong>
-                        </div>
+                        {% if form.non_field_errors %}
+                            <div class="text-red-600 col-span-6 border rounded rounded-md border-red-600 p-2">
+                                <strong>{{ form.non_field_errors }}</strong>
+                            </div>
+                        {% endif %}
                         <div class="col-span-6">
                             <label for="Username" class="block text-sm font-medium text-gray-700"> Email </label>
 

@@ -18,10 +18,10 @@
         <div class="flex flex-1 items-center justify-end md:justify-between">
             <nav aria-label="Global" class="hidden md:block">
                 <ul class="flex items-center gap-6 text-sm">
-                    <li class="text-slate-400 text-3xl">
-                        |
-                    </li>
                     {% if user.is_authenticated %}
+                        <li class="text-slate-400 text-3xl">
+                            |
+                        </li>
                         <li>
                             <a class="text-gray-500 transition hover:text-gray-500/75" href="{% url 'index' %}">
                                 Work Logger

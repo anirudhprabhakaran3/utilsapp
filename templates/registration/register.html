@@ -30,40 +30,65 @@
 
                     <form class="mt-8 grid grid-cols-6 gap-6" method="post">
                         {% csrf_token %}
-                        <div class="bg-red-600 text-white col-span-6 border rounded rounded-md border-red-600 p-2">
-                            <strong>{{ form.non_field_errors }}</strong>
-                        </div>
+                        {% if form.non_field_errors %}
+                            <div class="text-red-600 col-span-6 border rounded rounded-md border-red-600 p-2">
+                                <strong>{{ form.non_field_errors }}</strong>
+                            </div>
+                        {% endif %}
                         <div class="col-span-6">
                             <label for="Username" class="block text-sm font-medium text-gray-700"> Email </label>
                             {% render_field form.email class+="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" %}
+                            {% if form.email.errors %}
+                                <div class="text-red-600">
+                                    {{ form.email.errors }}
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="col-span-3">
-                            <label for="Password" class="block text-sm font-medium text-gray-700"> First Name </label>
+                            <label for="First Name" class="block text-sm font-medium text-gray-700"> First Name </label>
                             {% render_field form.first_name class+="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" %}
+                            {% if form.first_name.errors %}
+                                <div class="text-red-600">
+                                    {{ form.first_name.errors }}
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="col-span-3">
-                            <label for="Password" class="block text-sm font-medium text-gray-700"> Last Name </label>
+                            <label for="Last Name" class="block text-sm font-medium text-gray-700"> Last Name </label>
                             {% render_field form.last_name class+="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" %}
+                            {% if form.last_name.errors %}
+                                <div class="text-red-600">
+                                    {{ form.last_name.errors }}
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="col-span-6">
-                            <label for="Password" class="block text-sm font-medium text-gray-700"> Password </label>
+                            <label for="Password 1" class="block text-sm font-medium text-gray-700"> Password </label>
                             {% render_field form.password1 class+="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" %}
+                            {% if form.password1.errors %}
+                                <div class="text-red-600">
+                                    {{ form.password1.errors }}
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="col-span-6">
-                            <label for="Password" class="block text-sm font-medium text-gray-700"> Confirm
+                            <label for="Password 2" class="block text-sm font-medium text-gray-700"> Confirm
                                 Password </label>
                             {% render_field form.password2 class+="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" %}
+                            {% if form.password2.errors %}
+                                <div class="text-red-600">
+                                    {{ form.password2.errors }}
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-                            <button
-                                    class="inline-block shrink-0 rounded-md border border-teal-600 bg-teal-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-teal-600 focus:outline-none focus:ring active:text-teal-500"
-                                    type="submit"
-                            >
+                            <button class="inline-block shrink-0 rounded-md border border-teal-600 bg-teal-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-teal-600 focus:outline-none focus:ring active:text-teal-500"
+                                    type="submit">
                                 Register
                             </button>
 

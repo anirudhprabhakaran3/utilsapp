@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     "users.apps.UsersConfig",
+    "logger.apps.LoggerConfig"
 ]
 
 MIDDLEWARE = [
