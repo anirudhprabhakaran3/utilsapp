@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from logger.forms import CreateWorkItemForm
@@ -42,3 +43,63 @@ def create_work_item(request):
     }
 
     return render(request, "logger/create_work_item.html", args)
+
+
+@login_required
+def view_item(request, item_id):
+    item = get_object_or_404(WorkItem, pk=item_id)
+
+    if item.user != request.user:
+        messages.error(request, "You are not allowed to view this item.")
+        return redirect("logger_home")
+
+    args = {"item": item}
+
+    return render(request, "logger/view_item.html", args)
+
+
+@login_required
+def edit_item(request, item_id):
+    item = get_object_or_404(WorkItem, pk=item_id)
+
+    if item.user != request.user:
+        messages.error(request, "You are not allowed to edit this item.")
+        return redirect("logger_home")
+
+    form = CreateWorkItemForm(instance=item)
+    if request.method == "POST":
+        form = CreateWorkItemForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Work item has been updated.")
+            return redirect("logger_home")
+
+    args = {"form": form, "item": item}
+
+    return render(request, "logger/edit_work_item.html", args)
+
+
+@login_required
+def view_all_status(request, status):
+    flag = True
+    for s in STATUS_CHOICES:
+        if status == s[0]:
+            flag = False
+            break
+
+    if flag:
+        messages.error(request, "Not a valid status.")
+        return redirect("logger_home")
+
+    items = WorkItem.objects.filter(status=status, user=request.user).order_by("-updated_at")
+
+    for s in STATUS_CHOICES:
+        if s[0] == status:
+            status = s[1]
+
+    args = {
+        "items": items,
+        "status": status
+    }
+
+    return render(request, "logger/view_all.html", args)

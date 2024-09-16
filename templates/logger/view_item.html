@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Work Item #{{ item.id }} | Logger
+{% endblock %}
+
+{% block content %}
+    <section class="relative">
+        <div class="relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:flex lg:items-center lg:px-8">
+            <div class="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
+                <h1 class="text-3xl font-extrabold sm:text-5xl">
+                    <strong class="block font-extrabold">View Item</strong>
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-3/4 mx-auto flex gap-4 mb-8">
+        <a class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+           href="{% url 'logger_home' %}">
+            Back to Dashboard
+        </a>
+    </section>
+
+    <div class="flow-root rounded-lg border border-gray-100 py-3 shadow-sm mx-auto w-4/5 md:w-3/4">
+        <dl class="-my-3 divide-y divide-gray-100 text-sm">
+            <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">ID</dt>
+                <dd class="text-gray-700 sm:col-span-2">#{{ item.id }}</dd>
+            </div>
+
+            <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Subject</dt>
+                <dd class="text-gray-700 sm:col-span-2">{{ item.subject }}</dd>
+            </div>
+
+            <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Description</dt>
+                <dd class="text-gray-700 sm:col-span-2">{{ item.description }}</dd>
+            </div>
+
+            <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Status</dt>
+                <dd class="text-gray-700 sm:col-span-2">{{ item.get_status_display }}</dd>
+            </div>
+
+            <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Created At</dt>
+                <dd class="text-gray-700 sm:col-span-2">{{ item.created_at }}</dd>
+            </div>
+
+            <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Updated At</dt>
+                <dd class="text-gray-700 sm:col-span-2">{{ item.updated_at }}</dd>
+            </div>
+        </dl>
+    </div>
+
+{% endblock %}

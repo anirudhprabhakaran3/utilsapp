@@ -50,10 +50,8 @@
                             <thead class="text-left">
                             <tr>
                                 <th class="whitespace-nowrap px-4 py-2 font-bold">Subject</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">Created</th>
                                 <th class="whitespace-nowrap px-4 py-2 font-bold">Updated</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">Status</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">View</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Actions</th>
                             </tr>
                             </thead>
 
@@ -65,22 +63,19 @@
                                             {{ task.subject }}
                                         </td>
                                         <td class="whitespace-nowrap px-4 py-2">
-                                            {{ task.created_at }}
-                                        </td>
-                                        <td class="whitespace-nowrap px-4 py-2">
                                             {{ task.updated_at }}
                                         </td>
                                         <td class="whitespace-nowrap px-4 py-2">
-                                            {{ task.get_status_display }}
-                                        </td>
-                                        <td class="whitespace-nowrap px-4 py-2">
-                                            <a href="#">Update</a>
+                                            <a href="{% url 'logger_view_item' item_id=task.id %}"
+                                               class="underline px-1">View</a>
+                                            <a href="{% url 'logger_edit_item' item_id=task.id %}"
+                                               class="underline px-1">Update</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
                             {% else %}
                                 <tr>
-                                    <td colspan="5" class="text-center px-4 py-2">
+                                    <td colspan="3" class="text-center px-4 py-2">
                                         No tasks yet. Create one now!
                                     </td>
                                 </tr>
@@ -89,7 +84,7 @@
                         </table>
                     </div>
                     <a class="inline-flex items-center gap-2 rounded border border-blue-600 bg-blue-600 px-8 py-3 text-white mt-5 mb-1"
-                       href="#">
+                       href="{% url 'logger_view_all_status' status='IP' %}">
                         <span class="text-sm font-medium"> View All </span>
                         <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
@@ -109,10 +104,8 @@
                             <thead class="text-left">
                             <tr>
                                 <th class="whitespace-nowrap px-4 py-2 font-bold">Subject</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">Created</th>
                                 <th class="whitespace-nowrap px-4 py-2 font-bold">Updated</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">Status</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">View</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Actions</th>
                             </tr>
                             </thead>
 
@@ -124,22 +117,19 @@
                                             {{ task.subject }}
                                         </td>
                                         <td class="whitespace-nowrap px-4 py-2">
-                                            {{ task.created_at }}
-                                        </td>
-                                        <td class="whitespace-nowrap px-4 py-2">
                                             {{ task.updated_at }}
                                         </td>
                                         <td class="whitespace-nowrap px-4 py-2">
-                                            {{ task.get_status_display }}
-                                        </td>
-                                        <td class="whitespace-nowrap px-4 py-2">
-                                            <a href="#">Update</a>
+                                            <a href="{% url 'logger_view_item' item_id=task.id %}"
+                                               class="underline px-1">View</a>
+                                            <a href="{% url 'logger_edit_item' item_id=task.id %}"
+                                               class="underline px-1">Update</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
                             {% else %}
                                 <tr>
-                                    <td colspan="5" class="text-center px-4 py-2">
+                                    <td colspan="3" class="text-center px-4 py-2">
                                         No tasks yet.
                                     </td>
                                 </tr>
@@ -148,7 +138,7 @@
                         </table>
                     </div>
                     <a class="inline-flex items-center gap-2 rounded border border-amber-600 bg-amber-600 px-8 py-3 text-white mt-5 mb-1"
-                       href="#">
+                       href="{% url 'logger_view_all_status' status='BL' %}">
                         <span class="text-sm font-medium"> View All </span>
                         <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
@@ -162,16 +152,14 @@
             <article
                     class="overflow-hidden rounded-lg shadow transition hover:shadow-lg overflow-y-auto border border-red-600 bg-red-100">
                 <div class="p-4 sm:p-6">
-                    <h3 class="mt-1 mb-5 text-lg text-gray-900">Wont' Do</h3>
+                    <h3 class="mt-1 mb-5 text-lg text-gray-900">Won't Do</h3>
                     <div class="overflow-x-auto rounded-lg border border-red-600">
                         <table class="min-w-full divide-y-2 divide-red-600">
                             <thead class="text-left">
                             <tr>
                                 <th class="whitespace-nowrap px-4 py-2 font-bold">Subject</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">Created</th>
                                 <th class="whitespace-nowrap px-4 py-2 font-bold">Updated</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">Status</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">View</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Actions</th>
                             </tr>
                             </thead>
 
@@ -183,22 +171,19 @@
                                             {{ task.subject }}
                                         </td>
                                         <td class="whitespace-nowrap px-4 py-2">
-                                            {{ task.created_at }}
-                                        </td>
-                                        <td class="whitespace-nowrap px-4 py-2">
                                             {{ task.updated_at }}
                                         </td>
                                         <td class="whitespace-nowrap px-4 py-2">
-                                            {{ task.get_status_display }}
-                                        </td>
-                                        <td class="whitespace-nowrap px-4 py-2">
-                                            <a href="#">Update</a>
+                                            <a href="{% url 'logger_view_item' item_id=task.id %}"
+                                               class="underline px-1">View</a>
+                                            <a href="{% url 'logger_edit_item' item_id=task.id %}"
+                                               class="underline px-1">Update</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
                             {% else %}
                                 <tr>
-                                    <td colspan="5" class="text-center px-4 py-2">
+                                    <td colspan="3" class="text-center px-4 py-2">
                                         No tasks yet.
                                     </td>
                                 </tr>
@@ -207,7 +192,7 @@
                         </table>
                     </div>
                     <a class="inline-flex items-center gap-2 rounded border border-red-600 bg-red-600 px-8 py-3 text-white mt-5 mb-1"
-                       href="#">
+                       href="{% url 'logger_view_all_status' status='WD' %}">
                         <span class="text-sm font-medium"> View All </span>
                         <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
@@ -227,10 +212,8 @@
                             <thead class="text-left">
                             <tr>
                                 <th class="whitespace-nowrap px-4 py-2 font-bold">Subject</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">Created</th>
                                 <th class="whitespace-nowrap px-4 py-2 font-bold">Updated</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">Status</th>
-                                <th class="whitespace-nowrap px-4 py-2 font-bold">View</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Actions</th>
                             </tr>
                             </thead>
 
@@ -242,22 +225,19 @@
                                             {{ task.subject }}
                                         </td>
                                         <td class="whitespace-nowrap px-4 py-2">
-                                            {{ task.created_at }}
-                                        </td>
-                                        <td class="whitespace-nowrap px-4 py-2">
                                             {{ task.updated_at }}
                                         </td>
                                         <td class="whitespace-nowrap px-4 py-2">
-                                            {{ task.get_status_display }}
-                                        </td>
-                                        <td class="whitespace-nowrap px-4 py-2">
-                                            <a href="#">Update</a>
+                                            <a href="{% url 'logger_view_item' item_id=task.id %}"
+                                               class="underline px-1">View</a>
+                                            <a href="{% url 'logger_edit_item' item_id=task.id %}"
+                                               class="underline px-1">Update</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
                             {% else %}
                                 <tr>
-                                    <td colspan="5" class="text-center px-4 py-2">
+                                    <td colspan="3" class="text-center px-4 py-2">
                                         No tasks yet.
                                     </td>
                                 </tr>
@@ -266,7 +246,7 @@
                         </table>
                     </div>
                     <a class="inline-flex items-center gap-2 rounded border border-teal-600 bg-teal-600 px-8 py-3 text-white mt-5 mb-1"
-                       href="#">
+                       href="{% url 'logger_view_all_status' status='DO' %}">
                         <span class="text-sm font-medium"> View All </span>
                         <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">

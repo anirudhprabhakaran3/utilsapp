@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Editing #{{ item.id }} | Logger
+{% endblock %}
+
+{% block content %}
+    <section class="relative">
+        <div class="relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:flex lg:items-center lg:px-8">
+            <div class="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
+                <h1 class="text-3xl font-extrabold sm:text-5xl">
+                    <strong class="block font-extrabold">Editing Item #{{ item.id }}</strong>
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-3/4 mx-auto flex gap-4">
+        <a class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+           href="{% url 'logger_home' %}">
+            Back to Dashboard
+        </a>
+    </section>
+
+    <section class="my-6">
+        <div class="relative block overflow-hidden rounded-lg border border-teal-100 p-4 sm:p-6 lg:p-8 w-4/5 md:w-1/2 mx-auto">
+            <form class="grid grid-cols-6 gap-6" method="post">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="text-red-600 col-span-6 border rounded rounded-md border-red-600 p-2">
+                        <strong>{{ form.non_field_errors }}</strong>
+                    </div>
+                {% endif %}
+
+                <div class="hidden col-span-0 md:block md:col-span-1">
+                    Subject
+                </div>
+
+                <div class="col-span-6 md:col-span-5">
+                    {% render_field form.subject class+="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" placeholder="Subject" %}
+                </div>
+
+                <div class="hidden col-span-0 md:block md:col-span-1">
+                    Description
+                </div>
+
+                <div class="col-span-6 md:col-span-5">
+                    {% render_field form.description class+="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" placeholder="Description" %}
+                </div>
+
+                <div class="hidden col-span-0 md:block md:col-span-1">
+                    Status
+                </div>
+
+                <div class="col-span-6 md:col-span-5">
+                    {% render_field form.status class+="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" placeholder="Status" %}
+                </div>
+
+                <div class="hidden col-span-0 md:block md:col-span-5">
+                </div>
+
+                <div class="col-span-6 md:col-span-1">
+                    <button type="submit"
+                            class="inline-block rounded-lg bg-teal-500 px-5 py-3 text-sm font-medium text-white w-full">
+                        Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

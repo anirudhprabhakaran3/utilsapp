@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+    All {{ status }} items
+{% endblock %}
+
+{% block content %}
+    <section class="relative">
+        <div class="relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:flex lg:items-center lg:px-8">
+            <div class="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
+                <h1 class="text-3xl font-extrabold sm:text-5xl">
+                    <strong class="block font-extrabold">All Tasks - {{ status }}</strong>
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-3/4 mx-auto flex gap-4">
+        <a class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+           href="{% url 'logger_home' %}">
+            Back to Dashboard
+        </a>
+    </section>
+
+    <div class="my-8 mx-auto w-4/5 md:w-3/4">
+        <p>Total Tasks: <strong>{{ items | length }}</strong></p>
+    </div>
+
+    <div class="overflow-x-auto rounded-lg border border-gray-200 mx-auto w-4/5 md:w-3/4 my-8">
+        <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+            <thead class="text-left">
+            <tr>
+                <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">ID</th>
+                <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Subject</th>
+                <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Created At</th>
+                <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Updated At</th>
+                <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200">
+            {% if items %}
+                {% for item in items %}
+                    <tr>
+                        <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.id }}</td>
+                        <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.subject }}</td>
+                        <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.created_at }}</td>
+                        <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.updated_at }}</td>
+                        <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                            <a href="{% url 'logger_view_item' item_id=item.id %}"
+                               class="underline px-1">View</a>
+                            <a href="{% url 'logger_edit_item' item_id=item.id %}"
+                               class="underline px-1">Update</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5" class="whitespace-nowrap px-4 py-2 text-gray-700 text-center py-8">
+                        No tasks here. Woohoo!
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
