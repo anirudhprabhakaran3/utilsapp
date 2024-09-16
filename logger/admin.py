@@ -3,3 +3,4 @@ from logger import models
 
 # Register your models here.
 admin.site.register(models.WorkItem)
+admin.site.register(models.WorkItemPreferences)

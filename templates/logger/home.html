@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block title %}
     Home | Logger
@@ -25,6 +26,30 @@
             Create Task
         </a>
     </section>
+
+    <form method="post" action="{% url 'logger_update_preferences' %}"
+          class="w-full md:w-1/4 mx-auto">
+        {% csrf_token %}
+
+        <p>Get information about tasks from the past</p>
+
+        <p class="my-4">
+            {% render_field form.time_amount class+="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" %}
+        </p>
+
+        <p class="my-4">
+            {% render_field form.time_unit class+="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" %}
+        </p>
+
+        <p class="my-4">
+            <button
+                    class="inline-block shrink-0 rounded-md border border-teal-600 bg-teal-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-teal-600 focus:outline-none focus:ring active:text-teal-500"
+                    type="submit"
+            >
+                Save Preferences
+            </button>
+        </p>
+    </form>
 
     <section class="w-3/4 mx-auto my-8">
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">

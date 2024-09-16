@@ -1,27 +1,54 @@
-from django.contrib.auth import login
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from logger.forms import CreateWorkItemForm
-from logger.models import WorkItem, STATUS_CHOICES
+from logger.forms import CreateWorkItemForm, WorkItemPreferencesForm
+from logger.models import WorkItem, WorkItemPreferences, STATUS_CHOICES, TIME_CHOICES
+from django.utils import timezone
+from datetime import timedelta
 
 
 # Create your views here.
 @login_required
 def home(request):
-    in_progress = WorkItem.objects.filter(status="IP", user=request.user).order_by("-updated_at")[:20]
-    done = WorkItem.objects.filter(status="DO", user=request.user).order_by("-updated_at")[:20]
-    wont_do = WorkItem.objects.filter(status="WD", user=request.user).order_by("-updated_at")[:20]
-    blocked = WorkItem.objects.filter(status="BL", user=request.user).order_by("-updated_at")[:20]
+    preferences = WorkItemPreferences.objects.get(user=request.user)
+    preferences_form = WorkItemPreferencesForm(instance=preferences)
+
+    last_time = timezone.now().date() - timedelta(days=preferences.time_amount)
+    if preferences.time_unit == "W":
+        last_time = timezone.now().date() - timedelta(weeks=preferences.time_amount)
+    elif preferences.time_unit == "M":
+        last_time = timezone.now().date() - timedelta(weeks=preferences.time_amount * 4)
+
+    in_progress = WorkItem.objects.filter(status="IP", user=request.user, updated_at__gt=last_time).order_by(
+        "-updated_at")
+    done = WorkItem.objects.filter(status="DO", user=request.user, updated_at__gt=last_time).order_by("-updated_at")
+    wont_do = WorkItem.objects.filter(status="WD", user=request.user, updated_at__gt=last_time).order_by("-updated_at")
+    blocked = WorkItem.objects.filter(status="BL", user=request.user, updated_at__gt=last_time).order_by("-updated_at")
 
     args = {
         "in_progress": in_progress,
         "done": done,
         "wont_do": wont_do,
         "blocked": blocked,
+        "form": preferences_form
     }
 
     return render(request, "logger/home.html", args)
+
+
+@login_required
+def update_preferences(request):
+    preferences = WorkItemPreferences.objects.get(user=request.user)
+    form = WorkItemPreferencesForm(instance=preferences)
+
+    if request.method == "POST":
+        form = WorkItemPreferencesForm(instance=preferences, data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Preferences updated successfully")
+            return redirect("logger_home")
+
+    return redirect("logger_home")
 
 
 @login_required
@@ -33,7 +60,7 @@ def create_work_item(request):
         if form.is_valid():
             work_item = form.save(commit=False)
             work_item.user = request.user
-            work_item.status = "IP"
+            work_item.updated_at = timezone.now().date()
             work_item.save()
             messages.success(request, "Work item has been created.")
             return redirect("logger_home")
@@ -70,7 +97,9 @@ def edit_item(request, item_id):
     if request.method == "POST":
         form = CreateWorkItemForm(request.POST, instance=item)
         if form.is_valid():
-            form.save()
+            work_item = form.save(commit=False)
+            work_item.updated_at = timezone.now().date()
+            work_item.save()
             messages.success(request, "Work item has been updated.")
             return redirect("logger_home")
 
