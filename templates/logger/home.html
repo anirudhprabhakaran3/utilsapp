@@ -4,6 +4,310 @@
     Home | Logger
 {% endblock %}
 
+{% block head %}
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+{% endblock %}
+
 {% block content %}
-Logger Home
+    <section class="relative">
+        <div class="relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:flex lg:items-center lg:px-8">
+            <div class="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
+                <h1 class="text-3xl font-extrabold sm:text-5xl">
+                    <strong class="block font-extrabold">Logger</strong>
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-3/4 mx-auto flex gap-4">
+        <a class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+           href="{% url 'logger_create_work_item' %}">
+            Create Task
+        </a>
+    </section>
+
+    <section class="w-3/4 mx-auto my-8">
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
+            <div class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md border border-black row-span-2">
+                <div class="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+                    <div>
+                        <h6 class="block font-sans text-base font-semibold leading-relaxed tracking-normal text-blue-gray-900 antialiased">
+                            Statistics
+                        </h6>
+                    </div>
+                </div>
+                <div class="pt-6 px-2 pb-0">
+                    <div id="chart"></div>
+                </div>
+            </div>
+
+            <article
+                    class="overflow-hidden rounded-lg shadow transition hover:shadow-lg overflow-y-auto border border-blue-600 bg-blue-100">
+                <div class="p-4 sm:p-6">
+                    <h3 class="mt-1 mb-5 text-lg text-gray-900">Todo</h3>
+                    <div class="overflow-x-auto rounded-lg border border-blue-600">
+                        <table class="min-w-full divide-y-2 divide-blue-600">
+                            <thead class="text-left">
+                            <tr>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Subject</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Created</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Updated</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Status</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">View</th>
+                            </tr>
+                            </thead>
+
+                            <tbody class="divide-y divide-blue-600">
+                            {% if in_progress %}
+                                {% for task in in_progress %}
+                                    <tr>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.subject }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.created_at }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.updated_at }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.get_status_display }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            <a href="#">Update</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center px-4 py-2">
+                                        No tasks yet. Create one now!
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <a class="inline-flex items-center gap-2 rounded border border-blue-600 bg-blue-600 px-8 py-3 text-white mt-5 mb-1"
+                       href="#">
+                        <span class="text-sm font-medium"> View All </span>
+                        <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <article
+                    class="overflow-hidden rounded-lg shadow transition hover:shadow-lg overflow-y-auto border border-amber-600 bg-amber-100">
+                <div class="p-4 sm:p-6">
+                    <h3 class="mt-1 mb-5 text-lg text-gray-900">Blocked</h3>
+                    <div class="overflow-x-auto rounded-lg border border-amber-600">
+                        <table class="min-w-full divide-y-2 divide-amber-600">
+                            <thead class="text-left">
+                            <tr>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Subject</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Created</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Updated</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Status</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">View</th>
+                            </tr>
+                            </thead>
+
+                            <tbody class="divide-y divide-amber-600">
+                            {% if blocked %}
+                                {% for task in blocked %}
+                                    <tr>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.subject }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.created_at }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.updated_at }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.get_status_display }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            <a href="#">Update</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center px-4 py-2">
+                                        No tasks yet.
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <a class="inline-flex items-center gap-2 rounded border border-amber-600 bg-amber-600 px-8 py-3 text-white mt-5 mb-1"
+                       href="#">
+                        <span class="text-sm font-medium"> View All </span>
+                        <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <article
+                    class="overflow-hidden rounded-lg shadow transition hover:shadow-lg overflow-y-auto border border-red-600 bg-red-100">
+                <div class="p-4 sm:p-6">
+                    <h3 class="mt-1 mb-5 text-lg text-gray-900">Wont' Do</h3>
+                    <div class="overflow-x-auto rounded-lg border border-red-600">
+                        <table class="min-w-full divide-y-2 divide-red-600">
+                            <thead class="text-left">
+                            <tr>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Subject</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Created</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Updated</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Status</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">View</th>
+                            </tr>
+                            </thead>
+
+                            <tbody class="divide-y divide-red-600">
+                            {% if wont_do %}
+                                {% for task in wont_do %}
+                                    <tr>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.subject }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.created_at }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.updated_at }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.get_status_display }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            <a href="#">Update</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center px-4 py-2">
+                                        No tasks yet.
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <a class="inline-flex items-center gap-2 rounded border border-red-600 bg-red-600 px-8 py-3 text-white mt-5 mb-1"
+                       href="#">
+                        <span class="text-sm font-medium"> View All </span>
+                        <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <article
+                    class="overflow-hidden rounded-lg shadow transition hover:shadow-lg overflow-y-auto border border-teal-600 bg-teal-100">
+                <div class="p-4 sm:p-6">
+                    <h3 class="mt-1 mb-5 text-lg text-gray-900">Done</h3>
+                    <div class="overflow-x-auto rounded-lg border border-teal-600">
+                        <table class="min-w-full divide-y-2 divide-teal-600">
+                            <thead class="text-left">
+                            <tr>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Subject</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Created</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Updated</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">Status</th>
+                                <th class="whitespace-nowrap px-4 py-2 font-bold">View</th>
+                            </tr>
+                            </thead>
+
+                            <tbody class="divide-y divide-teal-600">
+                            {% if done %}
+                                {% for task in done %}
+                                    <tr>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.subject }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.created_at }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.updated_at }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            {{ task.get_status_display }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2">
+                                            <a href="#">Update</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center px-4 py-2">
+                                        No tasks yet.
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <a class="inline-flex items-center gap-2 rounded border border-teal-600 bg-teal-600 px-8 py-3 text-white mt-5 mb-1"
+                       href="#">
+                        <span class="text-sm font-medium"> View All </span>
+                        <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+
+            const chartConfig = {
+                chart: {
+                    type: 'bar'
+                },
+                series: [{
+                    name: 'Tasks',
+                    data: [
+                        {{ in_progress | length }},
+                        {{ done | length }},
+                        {{ blocked | length }},
+                        {{ wont_do | length }},
+                    ]
+                }],
+                xaxis: {
+                    categories: ["To Do", "Done", "Blocked", "Won't Do"]
+                }
+            }
+
+            const chart = new ApexCharts(document.querySelector("#chart"), chartConfig);
+
+            chart.render();
+        });
+    </script>
 {% endblock %}

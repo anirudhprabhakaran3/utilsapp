@@ -24,5 +24,5 @@ class WorkItem(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             self.created_at = timezone.now().date()
-        self.modified_at = timezone.now().date()
+        self.updated_at = timezone.now().date()
         return super(WorkItem, self).save(*args, **kwargs)
